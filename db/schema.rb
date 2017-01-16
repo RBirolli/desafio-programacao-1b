@@ -14,7 +14,6 @@ ActiveRecord::Schema.define(version: 20170115142423) do
 
   create_table "arquivos", force: :cascade do |t|
     t.datetime "data_upload"
-    t.string   "observacao"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.string   "nome_arq"

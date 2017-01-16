@@ -5,7 +5,6 @@
       <th style="width:30%;">Data Upload</th>
       <th style="width:30%;">Arquivo</th>
       <th style="width:20%;">Receita Bruta</th>
-      <th style="width:30%;">Observacao</th>
     </tr>
 
     <% if @arquivos %>
@@ -13,9 +12,7 @@
         <tr>
           <td><%= arquivo.data_upload %> </td>
           <td><%= link_to arquivo.nome_arq, arquivo_path(arquivo) %> </td>
-          <td><%= arquivo.receita_bruta %> </td>
-          <td> <input type="text" name="observacao_text" placeholder= <%= arquivo.observacao %> > </td>
-          <td>  <br><%= link_to "Salvar", arquivo_path(arquivo, :observacao_text), :method => :put %> </td>
+          <td>R$ <%= arquivo.receita_bruta %> </td>
         </tr>
       <% end %>
     <% end %>
