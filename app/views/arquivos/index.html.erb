@@ -1,0 +1,32 @@
+<div class="container">
+  <h1>Arquivos Importados</h1>
+
+  <% if @arquivos %>
+    <div class="row">
+        <% @arquivos.each do |arquivo| %>
+          <div class="col-lg-3 ">
+            <div class="listing-content text-center">
+              <%= arquivo.data_upload %>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="listing-content text-center">
+              <%= link_to arquivo.nome_arq, arquivo_path(arquivo) %>
+            </div>
+          </div>
+          <div class="col-lg-1 ">
+            <div class="listing-content text-center">
+              <%= arquivo.receita_bruta %>
+            </div>
+          </div>
+          <div class="col-lg-4 ">
+            <div class="listing-content text-center">
+              <%= arquivo.observacao %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+      <br><%= link_to "Importar Arquivo", new_arquivo_path, class: "navbar-wagon-item navbar-wagon-button btn" %>
+</div>
