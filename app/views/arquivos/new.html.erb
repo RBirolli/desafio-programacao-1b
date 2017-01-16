@@ -3,9 +3,9 @@
 
   <% if @file_array %>
     <div class="row">
-        <% @file_array.each do |arquivo| %>
+        <% @file_array.each_with_index do |arquivo, i| %>
             <div class="listing-content">
-              <%= link_to arquivo, edit_arquivo_path(arquivo) %>
+              <%= link_to arquivo, edit_arquivo_path(i) %>
         <% end %>
       </div>
     </div>

@@ -1,0 +1,26 @@
+<div class="container">
+  <h1>Compras efetuadas</h1>
+  <table>
+    <tr>
+      <th style="width:15%;">Comprador</th>
+      <th style="width:25%;">Descricao</th>
+      <th style="width:10%;">Unitario</th>
+      <th style="width:15%;">Quantidade</th>
+      <th style="width:15%;">Endereco</th>
+      <th style="width:20%;">Fornecedor</th>
+    </tr>
+    <% if @compras %>
+      <% @compras.each do |compra| %>
+        <tr>
+          <td><%= compra.nome_comprador %> </td>
+          <td><%= compra.descricao %> </td>
+          <td><%= compra.preco_unitario %> </td>
+          <td><%= compra.quantidade %> </td>
+          <td><%= compra.endereco %> </td>
+          <td><%= compra.nome_fornecedor %> </td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+  <br><%= link_to "Arquivos Importados", root_path, class: "navbar-wagon-item navbar-wagon-button btn" %>
+</div>
