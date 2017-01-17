@@ -10,17 +10,20 @@
       <th style="width:20%;">Fornecedor</th>
     </tr>
     <% if @compras %>
+      <% receita_bruta = 0 %>
       <% @compras.each do |compra| %>
         <tr>
           <td><%= compra.nome_comprador %> </td>
           <td><%= compra.descricao %> </td>
-          <td><%= compra.preco_unitario %> </td>
+          <td>R$ <%= compra.preco_unitario %> </td>
           <td><%= compra.quantidade %> </td>
           <td><%= compra.endereco %> </td>
           <td><%= compra.nome_fornecedor %> </td>
+          <% receita_bruta += (compra.preco_unitario * compra.quantidade) %>
         </tr>
       <% end %>
     </table>
   <% end %>
+  <p>--------------------------------------------------  Receita Bruta: R$ <%= receita_bruta %></p>
   <br><%= link_to "Arquivos Importados", root_path, class: "navbar-wagon-item navbar-wagon-button btn" %>
 </div>

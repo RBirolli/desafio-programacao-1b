@@ -1,6 +1,6 @@
 class ArquivosController < ApplicationController
 before_action :txt_files_list, only: [:new, :edit]
-before_action :find_arquivo, only: [:show, :update]
+before_action :find_arquivo, only: [:show, :destroy]
 
   def index
     # Identificar todos os arquivos ja importados e exibir
@@ -12,13 +12,61 @@ before_action :find_arquivo, only: [:show, :update]
   end
 
   def edit
-    # Cria o registro de identificacao do arquivo
-    arquivo = Arquivo.new
-    arquivo.nome_arq = @file_array[params[:id].to_i]
-    arquivo.data_upload = Time.now
-    arquivo.receita_bruta = 0
-    # Salvar os dados do arquivo
-    if arquivo.save
+    # Valida e cria o registro de identificacao do arquivo
+    if validar_arquivo.nil? == true
+      redirect_to new_arquivo_path, notice: "Arquivo '#{@file_array[params[:id].to_i]}' ja foi importado ."
+    else
+      # Processa os dados de compra
+      processar_compras(@arquivo)
+
+      # Atualiza a receita bruta
+      @arquivo.save
+
+      # Atualizar a lista de arquivos importados
+      redirect_to root_path, notice: 'Arquivo importado com sucesso.'
+    end
+  end
+
+  def show
+    # Exibe todas as compras do arquivo solicitado
+    @arquivo = Arquivo.find(params[:id].to_i)
+    @compras = @arquivo.compras
+  end
+
+  def destroy
+    # Exclui o arquivo e os respectivos registros de compras
+    @arquivo.compras.delete_all
+    @arquivo.delete
+    redirect_to root_path, notice: 'Arquivo deletado com sucesso.'
+  end
+
+  private
+
+    def txt_files_list
+    # identificar todos os arquivos txt contidos no diretorio
+      @file_array = Dir.glob('*.txt')
+    end
+
+    def find_arquivo
+      @arquivo = Arquivo.find(params[:id].to_i)
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def arquivo_params
+      params.require(:arquivo).permit(:id)
+    end
+
+    def validar_arquivo
+      # Verifica se o arquivo ja foi importado
+      if Arquivo.find_by(nome_arq: @file_array[params[:id].to_i]).nil?
+        # Ainda nao, criar um novo objeto
+        @arquivo = Arquivo.new(nome_arq: @file_array[params[:id].to_i], data_upload: Time.now, receita_bruta: 0)
+        # Salvar os dados do arquivo
+        @arquivo.save
+      end
+    end
+
+    def processar_compras(arquivo)
       # Abre o arquivo solicitado
       File.readlines(arquivo.nome_arq).each_with_index do |line, i|
         # Descartar a primeira linha
@@ -40,46 +88,5 @@ before_action :find_arquivo, only: [:show, :update]
           arquivo.receita_bruta += (compra.preco_unitario * compra.quantidade)
         end
       end
-
-      # Atualiza a receita bruta
-      arquivo.save
-
-      # Exibir lista de arquivos importados
-      redirect_to root_path, notice: 'Arquivo importado com sucesso.'
-    else
-      # Ocorreu erro, voltar para a pagina de solicitacao
-      render :new
     end
-  end
-
-  def show
-    # Exibe todas as compras do arquivo solicitado
-    @arquivo = Arquivo.find(params[:id].to_i)
-    @compras = @arquivo.compras
-  end
-
-  def update
-    # Salvar a observacao digitada
-byebug
-    @arquivo.observacao = params[:format]
-    @arquivo.save
-    redirect_to root_path, notice: 'Arquivo importado com sucesso.'
-  end
-
-  private
-
-    def txt_files_list
-    # identificar todos os arquivos txt contidos no diretorio
-      @file_array = Dir.glob('*.txt')
-    end
-
-    def find_arquivo
-      @arquivo = Arquivo.find(params[:id].to_i)
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def arquivo_params
-      params.require(:arquivo).permit(:id)
-    end
-
 end

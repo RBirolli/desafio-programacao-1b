@@ -2,7 +2,7 @@
   <h1>Arquivos Importados</h1>
   <table>
     <tr>
-      <th style="width:30%;">Data Upload</th>
+      <th style="width:35%;">Data Upload</th>
       <th style="width:30%;">Arquivo</th>
       <th style="width:20%;">Receita Bruta</th>
     </tr>
@@ -13,6 +13,7 @@
           <td><%= arquivo.data_upload %> </td>
           <td><%= link_to arquivo.nome_arq, arquivo_path(arquivo) %> </td>
           <td>R$ <%= arquivo.receita_bruta %> </td>
+          <td><%= link_to "Deletar Arquivo", arquivo_path(arquivo), method: :delete %></td>
         </tr>
       <% end %>
     <% end %>

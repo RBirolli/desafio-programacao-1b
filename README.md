@@ -14,10 +14,10 @@
 6. Atualize as alterações efetuadas nas tabelas:
     rails db:migrate
 
-Para executar o aplicativo inicie o Rails server:
+7. Para executar o aplicativo inicie o Rails server:
     rails s
 
-No browser executar o aplicativo utilizando o endereço:
+8. No browser executar o aplicativo utilizando o endereço:
     http://localhost:3000
 
 
