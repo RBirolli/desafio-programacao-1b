@@ -1,6 +1,9 @@
 <div class="container">
-  <h2>Arquivos para serem Importados</h2><br>
+  <%if notice %>
+    <div id="notice" class="alert alert-warning" role="alert"> <%= notice %> </div>
+  <% end %>
 
+  <h2>Arquivos para serem Importados</h2><br>
   <% if @file_array %>
     <div class="row">
         <% @file_array.each_with_index do |arquivo, i| %>
