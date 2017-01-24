@@ -16,11 +16,15 @@
           <td><%= arquivo.data_upload %> </td>
           <td><%= link_to arquivo.nome_arq, arquivo_path(arquivo) %> </td>
           <td>R$ <%= arquivo.receita_bruta %> </td>
-          <td><%= link_to "Deletar Arquivo", arquivo_path(arquivo), method: :delete %></td>
+          <% if @eh_mobile == false %>
+            <td><%= link_to "Deletar Arquivo", arquivo_path(arquivo), method: :delete %></td>
+          <% end %>
         </tr>
       <% end %>
     <% end %>
   </table>
-  <br><%= link_to "Importar Arquivo", new_arquivo_path, class: "navbar-wagon-item navbar-wagon-button btn" %>
+  <% if @eh_mobile == false %>
+    <br><%= link_to "Importar Arquivo", new_arquivo_path, class: "navbar-wagon-item navbar-wagon-button btn" %>
+  <% end %>
 </div>
 
