@@ -1,9 +1,10 @@
 
 class ArquivosController < ApplicationController
-before_action :txt_files_list, only: [:new, :edit]
-before_action :find_arquivo, only: [:show, :destroy]
-before_action :identifica_mobile
-before_action :bloqueia_mobile, only: [:new, :edit, :destroy]
+  before_action :valida_id
+  before_action :txt_files_list, only: [:new, :edit]
+  before_action :find_arquivo, only: [:show, :destroy]
+  before_action :identifica_mobile
+  before_action :bloqueia_mobile, only: [:new, :edit, :destroy]
 
   def index
     # Identificar todos os arquivos ja importados e exibir
@@ -101,5 +102,12 @@ before_action :bloqueia_mobile, only: [:new, :edit, :destroy]
   def bloqueia_mobile
     # Bloqueia acesso indevido via celular
     redirect_to root_path if @eh_mobile
+  end
+
+  def valida_id
+    # Verifica se o ID informado eh numerico
+    if params[:id].nil? == false
+      redirect_to ('/404') if params[:id].to_i.to_s != params[:id]
+    end
   end
 end
